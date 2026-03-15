@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/dashboard-layout";
 import { OverviewChart } from "@/components/overview-chart";
-import { Package, TrendingUp, Truck, AlertCircle, ArrowUpRight, MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+import { Package, TrendingUp, Truck, AlertCircle, ArrowUpRight, MoreHorizontal, Eye, Edit, Trash2, Info } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Home() {
   return (
@@ -39,6 +44,7 @@ export default function Home() {
             trend="+12.5%"
             trendUp={true}
             icon={<Package className="w-4 h-4 text-zinc-500" />}
+            tooltip="Número total de envíos registrados en el sistema hasta la fecha."
           />
           <MetricCard
             title="En Tránsito"
@@ -46,6 +52,7 @@ export default function Home() {
             trend="+4.2%"
             trendUp={true}
             icon={<Truck className="w-4 h-4 text-zinc-500" />}
+            tooltip="Envíos que actualmente están en camino a su destino."
           />
           <MetricCard
             title="Entregados (Hoy)"
@@ -53,6 +60,7 @@ export default function Home() {
             trend="-2.1%"
             trendUp={false}
             icon={<TrendingUp className="w-4 h-4 text-zinc-500" />}
+            tooltip="Cantidad de envíos que han sido entregados exitosamente el día de hoy."
           />
           <MetricCard
             title="Problemas Reportados"
@@ -60,6 +68,7 @@ export default function Home() {
             trend="-1"
             trendUp={true} // Less issues is good
             icon={<AlertCircle className="w-4 h-4 text-zinc-500" />}
+            tooltip="Número de envíos con incidencias, retrasos o problemas reportados."
           />
         </div>
 
@@ -178,11 +187,25 @@ export default function Home() {
   );
 }
 
-function MetricCard({ title, value, trend, trendUp, icon }: { title: string, value: string, trend: string, trendUp: boolean, icon: React.ReactNode }) {
+function MetricCard({ title, value, trend, trendUp, icon, tooltip }: { title: string, value: string, trend: string, trendUp: boolean, icon: React.ReactNode, tooltip?: string }) {
   return (
     <div className="bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-zinc-500">{title}</h3>
+        <div className="flex items-center gap-1.5">
+          <h3 className="text-sm font-medium text-zinc-500">{title}</h3>
+          {tooltip && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="text-zinc-400 hover:text-zinc-900 outline-none">
+                  <Info className="w-3.5 h-3.5" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="max-w-xs text-xs">{tooltip}</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </div>
         {icon}
       </div>
       <div className="flex items-baseline gap-2">

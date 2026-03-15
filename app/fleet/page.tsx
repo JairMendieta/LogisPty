@@ -1,5 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import DashboardLayout from "@/components/dashboard-layout";
-import { Truck, Search, Filter, Plus, MoreHorizontal, MapPin, Battery, Activity, Eye, Edit, Trash2 } from "lucide-react";
+import { Truck, Search, Filter, Plus, MoreHorizontal, MapPin, Battery, Activity, Eye, Edit, Trash2, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +12,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const INITIAL_VEHICLES = [
+  { id: 1, model: "Ford Transit 2023", plate: "XYZ-1234", driver: "Mike Johnson", status: "Activo", location: "I-95 Norte, NY" },
+  { id: 2, model: "Mercedes Sprinter", plate: "ABC-9876", driver: "Sarah Connor", status: "Activo", location: "Centro LA, CA" },
+  { id: 3, model: "Ram ProMaster", plate: "DEF-4567", driver: "Sin asignar", status: "Inactivo", location: "Depósito Central, Chicago" },
+  { id: 4, model: "Ford E-Transit", plate: "EV-001", driver: "Tom Smith", status: "Mantenimiento", location: "Centro de Servicio A" },
+];
+
 export default function FleetPage() {
+  const [vehicles, setVehicles] = useState(INITIAL_VEHICLES);
+
+  const handleStatusChange = (id: number, newStatus: string) => {
+    setVehicles(vehicles.map(v => v.id === id ? { ...v, status: newStatus } : v));
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -62,34 +78,17 @@ export default function FleetPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200">
-                <VehicleRow 
-                  model="Ford Transit 2023"
-                  plate="XYZ-1234"
-                  driver="Mike Johnson"
-                  status="Activo"
-                  location="I-95 Norte, NY"
-                />
-                <VehicleRow 
-                  model="Mercedes Sprinter"
-                  plate="ABC-9876"
-                  driver="Sarah Connor"
-                  status="Activo"
-                  location="Centro LA, CA"
-                />
-                <VehicleRow 
-                  model="Ram ProMaster"
-                  plate="DEF-4567"
-                  driver="Sin asignar"
-                  status="Inactivo"
-                  location="Depósito Central, Chicago"
-                />
-                <VehicleRow 
-                  model="Ford E-Transit"
-                  plate="EV-001"
-                  driver="Tom Smith"
-                  status="Mantenimiento"
-                  location="Centro de Servicio A"
-                />
+                {vehicles.map((vehicle) => (
+                  <VehicleRow 
+                    key={vehicle.id}
+                    model={vehicle.model}
+                    plate={vehicle.plate}
+                    driver={vehicle.driver}
+                    status={vehicle.status}
+                    location={vehicle.location}
+                    onStatusChange={(newStatus) => handleStatusChange(vehicle.id, newStatus)}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
@@ -113,7 +112,7 @@ function OverviewCard({ title, value, icon }: { title: string, value: string, ic
   );
 }
 
-function VehicleRow({ model, plate, driver, status, location }: { model: string, plate: string, driver: string, status: string, location: string }) {
+function VehicleRow({ model, plate, driver, status, location, onStatusChange }: { model: string, plate: string, driver: string, status: string, location: string, onStatusChange: (status: string) => void }) {
   const statusColors: Record<string, string> = {
     "Activo": "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
     "Inactivo": "bg-zinc-50 text-zinc-600 ring-zinc-500/20",
@@ -140,9 +139,30 @@ function VehicleRow({ model, plate, driver, status, location }: { model: string,
         </div>
       </td>
       <td className="px-6 py-4">
-        <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ring-1 ring-inset ${statusColors[status] || "bg-zinc-50 text-zinc-600 ring-zinc-500/20"}`}>
-          {status}
-        </span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium ring-1 ring-inset outline-none hover:opacity-80 transition-opacity ${statusColors[status] || "bg-zinc-50 text-zinc-600 ring-zinc-500/20"}`}>
+              {status}
+              <ChevronDown className="w-3 h-3 opacity-50" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-40">
+            <DropdownMenuLabel>Cambiar estado</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => onStatusChange("Activo")} className="cursor-pointer">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2"></div>
+              <span>Activo</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onStatusChange("Inactivo")} className="cursor-pointer">
+              <div className="w-2 h-2 rounded-full bg-zinc-400 mr-2"></div>
+              <span>Inactivo</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onStatusChange("Mantenimiento")} className="cursor-pointer">
+              <div className="w-2 h-2 rounded-full bg-amber-500 mr-2"></div>
+              <span>Mantenimiento</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </td>
       <td className="px-6 py-4 text-zinc-600 flex items-center gap-1.5">
         <MapPin className="w-3.5 h-3.5 text-zinc-400" />

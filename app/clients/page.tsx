@@ -1,5 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import DashboardLayout from "@/components/dashboard-layout";
-import { Users, Search, Filter, Plus, MoreHorizontal, Building2, Mail, Phone, Eye, Edit, Trash2 } from "lucide-react";
+import { Users, Search, Filter, Plus, MoreHorizontal, Building2, Mail, Phone, Eye, Edit, Trash2, Copy, Check, AlertCircle } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,8 +11,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+const MOCK_CLIENTS = [
+  { company: "Acme Corp", contact: "Jane Doe", email: "jane@acme.com", phone: "+1 (555) 123-4567", activeShipments: 12, totalVolume: "1,240 kg", status: "Activo" },
+  { company: "Stark Industries", contact: "Tony Stark", email: "tony@stark.com", phone: "+1 (555) 987-6543", activeShipments: 5, totalVolume: "8,500 kg", status: "Activo" },
+  { company: "Wayne Enterprises", contact: "Bruce Wayne", email: "bruce@wayne.com", phone: "+1 (555) 555-0199", activeShipments: 0, totalVolume: "450 kg", status: "Inactivo" },
+  { company: "Globex Corp", contact: "Hank Scorpio", email: "hank.globex.com", phone: "+1 (555) 888-9999", activeShipments: 28, totalVolume: "12,000 kg", status: "Activo" },
+];
 
 export default function ClientsPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredClients = MOCK_CLIENTS.filter((client) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      client.company.toLowerCase().includes(query) ||
+      client.contact.toLowerCase().includes(query) ||
+      client.email.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -33,6 +59,8 @@ export default function ClientsPage() {
               <input
                 type="text"
                 placeholder="Buscar por empresa, contacto o email..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full h-9 pl-9 pr-4 rounded-md border border-zinc-200 bg-zinc-50 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
               />
             </div>
@@ -55,42 +83,18 @@ export default function ClientsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200">
-                <ClientRow 
-                  company="Acme Corp"
-                  contact="Jane Doe"
-                  email="jane@acme.com"
-                  phone="+1 (555) 123-4567"
-                  activeShipments={12}
-                  totalVolume="1,240 kg"
-                  status="Activo"
-                />
-                <ClientRow 
-                  company="Stark Industries"
-                  contact="Tony Stark"
-                  email="tony@stark.com"
-                  phone="+1 (555) 987-6543"
-                  activeShipments={5}
-                  totalVolume="8,500 kg"
-                  status="Activo"
-                />
-                <ClientRow 
-                  company="Wayne Enterprises"
-                  contact="Bruce Wayne"
-                  email="bruce@wayne.com"
-                  phone="+1 (555) 555-0199"
-                  activeShipments={0}
-                  totalVolume="450 kg"
-                  status="Inactivo"
-                />
-                <ClientRow 
-                  company="Globex Corp"
-                  contact="Hank Scorpio"
-                  email="hank@globex.com"
-                  phone="+1 (555) 888-9999"
-                  activeShipments={28}
-                  totalVolume="12,000 kg"
-                  status="Activo"
-                />
+                {filteredClients.map((client, index) => (
+                  <ClientRow 
+                    key={index}
+                    company={client.company}
+                    contact={client.contact}
+                    email={client.email}
+                    phone={client.phone}
+                    activeShipments={client.activeShipments}
+                    totalVolume={client.totalVolume}
+                    status={client.status}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
@@ -101,6 +105,27 @@ export default function ClientsPage() {
 }
 
 function ClientRow({ company, contact, email, phone, activeShipments, totalVolume, status }: { company: string, contact: string, email: string, phone: string, activeShipments: number, totalVolume: string, status: string }) {
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
+
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isEmailValid = isValidEmail(email);
+
+  const handleCopy = (text: string, type: 'email' | 'phone') => {
+    navigator.clipboard.writeText(text);
+    if (type === 'email') {
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    } else {
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2000);
+    }
+  };
+
   const statusColors: Record<string, string> = {
     "Activo": "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
     "Inactivo": "bg-zinc-50 text-zinc-600 ring-zinc-500/20",
@@ -120,8 +145,38 @@ function ClientRow({ company, contact, email, phone, activeShipments, totalVolum
       <td className="px-6 py-4">
         <p className="text-zinc-900 font-medium">{contact}</p>
         <div className="flex flex-col gap-1 mt-1">
-          <span className="text-xs text-zinc-500 flex items-center gap-1.5"><Mail className="w-3 h-3" /> {email}</span>
-          <span className="text-xs text-zinc-500 flex items-center gap-1.5"><Phone className="w-3 h-3" /> {phone}</span>
+          <div className="text-xs text-zinc-500 flex items-center gap-1.5 group">
+            <Mail className={`w-3 h-3 ${!isEmailValid ? 'text-red-500' : ''}`} /> 
+            <span className={!isEmailValid ? 'text-red-600' : ''}>{email}</span>
+            {!isEmailValid && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <AlertCircle className="w-3.5 h-3.5 text-red-500 cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-xs">Formato de correo electrónico inválido</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            <button 
+              onClick={() => handleCopy(email, 'email')}
+              className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 hover:bg-zinc-200 rounded text-zinc-400 hover:text-zinc-900 outline-none"
+              title="Copiar email"
+            >
+              {copiedEmail ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+            </button>
+          </div>
+          <div className="text-xs text-zinc-500 flex items-center gap-1.5 group">
+            <Phone className="w-3 h-3" /> 
+            <span>{phone}</span>
+            <button 
+              onClick={() => handleCopy(phone, 'phone')}
+              className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 hover:bg-zinc-200 rounded text-zinc-400 hover:text-zinc-900 outline-none"
+              title="Copiar teléfono"
+            >
+              {copiedPhone ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+            </button>
+          </div>
         </div>
       </td>
       <td className="px-6 py-4 text-zinc-600">

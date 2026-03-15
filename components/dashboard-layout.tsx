@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Package,
@@ -11,14 +14,18 @@ import {
   Search,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   return (
-    <div className="flex h-screen w-full bg-[#FAFAFA] text-zinc-900 font-sans">
+    <TooltipProvider>
+      <div className="flex h-screen w-full bg-[#FAFAFA] text-zinc-900 font-sans">
       {/* Sidebar */}
       <aside className="w-64 border-r border-zinc-200 bg-white flex flex-col">
         <div className="h-16 flex items-center px-6 border-b border-zinc-200">
@@ -32,17 +39,17 @@ export default function DashboardLayout({
 
         <div className="flex-1 overflow-y-auto py-4 px-3">
           <nav className="space-y-1">
-            <NavItem href="/" icon={<LayoutDashboard className="w-4 h-4" />} label="Panel" active />
-            <NavItem href="/shipments" icon={<Package className="w-4 h-4" />} label="Envíos" />
-            <NavItem href="/fleet" icon={<Truck className="w-4 h-4" />} label="Flota" />
-            <NavItem href="/clients" icon={<Users className="w-4 h-4" />} label="Clientes" />
-            <NavItem href="/billing" icon={<CreditCard className="w-4 h-4" />} label="Facturación" />
+            <NavItem href="/" icon={<LayoutDashboard className="w-4 h-4" />} label="Panel" active={pathname === "/"} />
+            <NavItem href="/shipments" icon={<Package className="w-4 h-4" />} label="Envíos" active={pathname?.startsWith("/shipments")} />
+            <NavItem href="/fleet" icon={<Truck className="w-4 h-4" />} label="Flota" active={pathname?.startsWith("/fleet")} />
+            <NavItem href="/clients" icon={<Users className="w-4 h-4" />} label="Clientes" active={pathname?.startsWith("/clients")} />
+            <NavItem href="/billing" icon={<CreditCard className="w-4 h-4" />} label="Facturación" active={pathname?.startsWith("/billing")} />
           </nav>
         </div>
 
         <div className="p-4 border-t border-zinc-200">
           <nav className="space-y-1 mb-4">
-            <NavItem href="/settings" icon={<Settings className="w-4 h-4" />} label="Configuración" />
+            <NavItem href="/settings" icon={<Settings className="w-4 h-4" />} label="Configuración" active={pathname?.startsWith("/settings")} />
           </nav>
           <div className="flex items-center gap-3 px-2">
             <Avatar className="w-9 h-9 border border-zinc-200">
@@ -90,6 +97,7 @@ export default function DashboardLayout({
         </div>
       </main>
     </div>
+    </TooltipProvider>
   );
 }
 
