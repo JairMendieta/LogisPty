@@ -7,13 +7,13 @@ export default function ClientsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-zinc-900 tracking-tight">Clients</h1>
-            <p className="text-sm text-zinc-500 mt-1">Manage your B2B clients and their shipping profiles.</p>
+            <h1 className="text-2xl font-semibold text-zinc-900 tracking-tight">Clientes</h1>
+            <p className="text-sm text-zinc-500 mt-1">Gestiona tus clientes B2B y sus perfiles de envío.</p>
           </div>
           <div className="flex items-center gap-3">
             <button className="px-4 py-2 bg-zinc-900 text-white rounded-md text-sm font-medium hover:bg-zinc-800 transition-colors shadow-sm flex items-center gap-2">
               <Plus className="w-4 h-4" />
-              Add Client
+              Añadir Cliente
             </button>
           </div>
         </div>
@@ -24,13 +24,13 @@ export default function ClientsPage() {
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
               <input
                 type="text"
-                placeholder="Search by company name, contact, or email..."
+                placeholder="Buscar por empresa, contacto o email..."
                 className="w-full h-9 pl-9 pr-4 rounded-md border border-zinc-200 bg-zinc-50 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
               />
             </div>
             <button className="px-3 py-2 bg-white border border-zinc-200 text-zinc-700 rounded-md text-sm font-medium hover:bg-zinc-50 transition-colors flex items-center gap-2">
               <Filter className="w-4 h-4" />
-              Sort: Newest
+              Ordenar: Más recientes
             </button>
           </div>
           
@@ -38,12 +38,12 @@ export default function ClientsPage() {
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-zinc-500 uppercase bg-zinc-50/50 border-b border-zinc-200">
                 <tr>
-                  <th className="px-6 py-3 font-medium">Company</th>
-                  <th className="px-6 py-3 font-medium">Primary Contact</th>
-                  <th className="px-6 py-3 font-medium">Active Shipments</th>
-                  <th className="px-6 py-3 font-medium">Total Volume</th>
-                  <th className="px-6 py-3 font-medium">Status</th>
-                  <th className="px-6 py-3 font-medium text-right">Action</th>
+                  <th className="px-6 py-3 font-medium">Empresa</th>
+                  <th className="px-6 py-3 font-medium">Contacto Principal</th>
+                  <th className="px-6 py-3 font-medium">Envíos Activos</th>
+                  <th className="px-6 py-3 font-medium">Volumen Total</th>
+                  <th className="px-6 py-3 font-medium">Estado</th>
+                  <th className="px-6 py-3 font-medium text-right">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200">
@@ -54,7 +54,7 @@ export default function ClientsPage() {
                   phone="+1 (555) 123-4567"
                   activeShipments={12}
                   totalVolume="1,240 kg"
-                  status="Active"
+                  status="Activo"
                 />
                 <ClientRow 
                   company="Stark Industries"
@@ -63,7 +63,7 @@ export default function ClientsPage() {
                   phone="+1 (555) 987-6543"
                   activeShipments={5}
                   totalVolume="8,500 kg"
-                  status="Active"
+                  status="Activo"
                 />
                 <ClientRow 
                   company="Wayne Enterprises"
@@ -72,7 +72,7 @@ export default function ClientsPage() {
                   phone="+1 (555) 555-0199"
                   activeShipments={0}
                   totalVolume="450 kg"
-                  status="Inactive"
+                  status="Inactivo"
                 />
                 <ClientRow 
                   company="Globex Corp"
@@ -81,7 +81,7 @@ export default function ClientsPage() {
                   phone="+1 (555) 888-9999"
                   activeShipments={28}
                   totalVolume="12,000 kg"
-                  status="Active"
+                  status="Activo"
                 />
               </tbody>
             </table>
@@ -94,8 +94,8 @@ export default function ClientsPage() {
 
 function ClientRow({ company, contact, email, phone, activeShipments, totalVolume, status }: { company: string, contact: string, email: string, phone: string, activeShipments: number, totalVolume: string, status: string }) {
   const statusColors: Record<string, string> = {
-    "Active": "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
-    "Inactive": "bg-zinc-50 text-zinc-600 ring-zinc-500/20",
+    "Activo": "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
+    "Inactivo": "bg-zinc-50 text-zinc-600 ring-zinc-500/20",
   };
 
   return (

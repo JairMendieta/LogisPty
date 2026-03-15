@@ -6,8 +6,8 @@ export default function BillingPage() {
     <DashboardLayout>
       <div className="space-y-8 max-w-5xl mx-auto">
         <div>
-          <h1 className="text-2xl font-semibold text-zinc-900 tracking-tight">Billing & Plans</h1>
-          <p className="text-sm text-zinc-500 mt-1">Manage your subscription, payment methods, and billing history.</p>
+          <h1 className="text-2xl font-semibold text-zinc-900 tracking-tight">Facturación y Planes</h1>
+          <p className="text-sm text-zinc-500 mt-1">Gestiona tu suscripción, métodos de pago e historial de facturación.</p>
         </div>
 
         {/* Current Plan */}
@@ -16,25 +16,25 @@ export default function BillingPage() {
             <div>
               <h2 className="text-lg font-semibold text-zinc-900 flex items-center gap-2">
                 <Zap className="w-5 h-5 text-amber-500" />
-                Pro Plan
+                Plan Pro
               </h2>
-              <p className="text-sm text-zinc-500 mt-1">You are currently on the Pro plan, billed monthly.</p>
+              <p className="text-sm text-zinc-500 mt-1">Actualmente estás en el plan Pro, facturado mensualmente.</p>
               
               <div className="mt-6 space-y-2">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-zinc-600 font-medium">Shipments used this month</span>
+                  <span className="text-zinc-600 font-medium">Envíos usados este mes</span>
                   <span className="text-zinc-900 font-medium">842 / 1,000</span>
                 </div>
                 <div className="w-full h-2 bg-zinc-100 rounded-full overflow-hidden">
                   <div className="h-full bg-zinc-900 rounded-full" style={{ width: '84%' }}></div>
                 </div>
-                <p className="text-xs text-zinc-500">Resets on Oct 1st, 2026</p>
+                <p className="text-xs text-zinc-500">Se reinicia el 1 de Oct, 2026</p>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-zinc-900 tracking-tight">$99<span className="text-base font-normal text-zinc-500">/mo</span></div>
+              <div className="text-3xl font-bold text-zinc-900 tracking-tight">$99<span className="text-base font-normal text-zinc-500">/mes</span></div>
               <button className="mt-4 px-4 py-2 bg-white border border-zinc-200 text-zinc-900 rounded-md text-sm font-medium hover:bg-zinc-50 transition-colors shadow-sm w-full">
-                Manage Subscription
+                Gestionar Suscripción
               </button>
             </div>
           </div>
@@ -42,28 +42,28 @@ export default function BillingPage() {
 
         {/* Upgrade Options */}
         <div>
-          <h2 className="text-lg font-semibold text-zinc-900 mb-4">Available Plans</h2>
+          <h2 className="text-lg font-semibold text-zinc-900 mb-4">Planes Disponibles</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <PlanCard 
-              name="Starter"
+              name="Básico"
               price="$29"
-              description="Perfect for small businesses just getting started."
-              features={["Up to 100 shipments/mo", "Basic tracking", "Email support", "1 Admin user"]}
+              description="Perfecto para pequeñas empresas que recién comienzan."
+              features={["Hasta 100 envíos/mes", "Rastreo básico", "Soporte por email", "1 usuario Admin"]}
               current={false}
             />
             <PlanCard 
               name="Pro"
               price="$99"
-              description="For growing logistics companies with active fleets."
-              features={["Up to 1,000 shipments/mo", "Real-time GPS tracking", "Priority support", "5 Admin users", "Route optimization"]}
+              description="Para empresas de logística en crecimiento con flotas activas."
+              features={["Hasta 1,000 envíos/mes", "Rastreo GPS en tiempo real", "Soporte prioritario", "5 usuarios Admin", "Optimización de rutas"]}
               current={true}
               highlight={true}
             />
             <PlanCard 
-              name="Enterprise"
-              price="Custom"
-              description="Advanced features for large scale operations."
-              features={["Unlimited shipments", "Custom API integration", "24/7 Phone support", "Unlimited users", "Dedicated account manager"]}
+              name="Empresarial"
+              price="Personalizado"
+              description="Funciones avanzadas para operaciones a gran escala."
+              features={["Envíos ilimitados", "Integración API personalizada", "Soporte telefónico 24/7", "Usuarios ilimitados", "Gerente de cuenta dedicado"]}
               current={false}
             />
           </div>
@@ -73,11 +73,11 @@ export default function BillingPage() {
         <div className="bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
           <div className="p-6 border-b border-zinc-200 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-semibold text-zinc-900">Payment Methods</h2>
-              <p className="text-sm text-zinc-500">Manage how you pay for your subscription.</p>
+              <h2 className="text-base font-semibold text-zinc-900">Métodos de Pago</h2>
+              <p className="text-sm text-zinc-500">Gestiona cómo pagas tu suscripción.</p>
             </div>
             <button className="text-sm font-medium text-zinc-900 hover:underline">
-              Add Method
+              Añadir Método
             </button>
           </div>
           <div className="p-6">
@@ -87,13 +87,13 @@ export default function BillingPage() {
                   <CreditCard className="w-5 h-5 text-zinc-700" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-zinc-900">Visa ending in 4242</p>
-                  <p className="text-xs text-zinc-500">Expires 12/2028</p>
+                  <p className="text-sm font-medium text-zinc-900">Visa terminada en 4242</p>
+                  <p className="text-xs text-zinc-500">Expira 12/2028</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-zinc-100 text-zinc-600">Default</span>
-                <button className="text-sm text-zinc-500 hover:text-zinc-900">Edit</button>
+                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-zinc-100 text-zinc-600">Predeterminado</span>
+                <button className="text-sm text-zinc-500 hover:text-zinc-900">Editar</button>
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@ function PlanCard({ name, price, description, features, current, highlight }: { 
     <div className={`relative bg-white rounded-xl border p-6 flex flex-col ${highlight ? 'border-zinc-900 shadow-md' : 'border-zinc-200 shadow-sm'}`}>
       {highlight && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-[10px] font-bold uppercase tracking-wider py-1 px-3 rounded-full">
-          Most Popular
+          Más Popular
         </div>
       )}
       <div className="mb-4">
@@ -117,7 +117,7 @@ function PlanCard({ name, price, description, features, current, highlight }: { 
       </div>
       <div className="mb-6">
         <span className="text-3xl font-bold text-zinc-900 tracking-tight">{price}</span>
-        {price !== "Custom" && <span className="text-sm text-zinc-500 font-medium">/mo</span>}
+        {price !== "Personalizado" && <span className="text-sm text-zinc-500 font-medium">/mes</span>}
       </div>
       <ul className="space-y-3 mb-8 flex-1">
         {features.map((feature, i) => (
@@ -137,7 +137,7 @@ function PlanCard({ name, price, description, features, current, highlight }: { 
         }`}
         disabled={current}
       >
-        {current ? 'Current Plan' : price === "Custom" ? 'Contact Sales' : 'Upgrade'}
+        {current ? 'Plan Actual' : price === "Personalizado" ? 'Contactar Ventas' : 'Mejorar'}
       </button>
     </div>
   );

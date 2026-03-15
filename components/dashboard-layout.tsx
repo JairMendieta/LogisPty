@@ -32,17 +32,17 @@ export default function DashboardLayout({
 
         <div className="flex-1 overflow-y-auto py-4 px-3">
           <nav className="space-y-1">
-            <NavItem href="/" icon={<LayoutDashboard className="w-4 h-4" />} label="Dashboard" active />
-            <NavItem href="/shipments" icon={<Package className="w-4 h-4" />} label="Shipments" />
-            <NavItem href="/fleet" icon={<Truck className="w-4 h-4" />} label="Fleet" />
-            <NavItem href="/clients" icon={<Users className="w-4 h-4" />} label="Clients" />
-            <NavItem href="/billing" icon={<CreditCard className="w-4 h-4" />} label="Billing" />
+            <NavItem href="/" icon={<LayoutDashboard className="w-4 h-4" />} label="Panel" active />
+            <NavItem href="/shipments" icon={<Package className="w-4 h-4" />} label="Envíos" />
+            <NavItem href="/fleet" icon={<Truck className="w-4 h-4" />} label="Flota" />
+            <NavItem href="/clients" icon={<Users className="w-4 h-4" />} label="Clientes" />
+            <NavItem href="/billing" icon={<CreditCard className="w-4 h-4" />} label="Facturación" />
           </nav>
         </div>
 
         <div className="p-4 border-t border-zinc-200">
           <nav className="space-y-1 mb-4">
-            <NavItem href="/settings" icon={<Settings className="w-4 h-4" />} label="Settings" />
+            <NavItem href="/settings" icon={<Settings className="w-4 h-4" />} label="Configuración" />
           </nav>
           <div className="flex items-center gap-3 px-2">
             <Avatar className="w-9 h-9 border border-zinc-200">
@@ -50,7 +50,7 @@ export default function DashboardLayout({
               <AvatarFallback>AD</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-zinc-900 truncate">Admin User</p>
+              <p className="text-sm font-medium text-zinc-900 truncate">Usuario Admin</p>
               <p className="text-xs text-zinc-500 truncate">admin@logissaas.com</p>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default function DashboardLayout({
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
               <input
                 type="text"
-                placeholder="Search shipments, drivers, or clients..."
+                placeholder="Buscar envíos, conductores o clientes..."
                 className="w-full h-9 pl-9 pr-4 rounded-md border border-zinc-200 bg-zinc-50 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all"
               />
             </div>

@@ -9,16 +9,16 @@ export default function Home() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-zinc-900 tracking-tight">Dashboard</h1>
-            <p className="text-sm text-zinc-500 mt-1">Welcome back. Here's what's happening today.</p>
+            <h1 className="text-2xl font-semibold text-zinc-900 tracking-tight">Panel de Control</h1>
+            <p className="text-sm text-zinc-500 mt-1">Bienvenido de nuevo. Esto es lo que sucede hoy.</p>
           </div>
           <div className="flex items-center gap-3">
             <button className="px-4 py-2 bg-white border border-zinc-200 text-zinc-900 rounded-md text-sm font-medium hover:bg-zinc-50 transition-colors shadow-sm">
-              Download Report
+              Descargar Reporte
             </button>
             <button className="px-4 py-2 bg-zinc-900 text-white rounded-md text-sm font-medium hover:bg-zinc-800 transition-colors shadow-sm flex items-center gap-2">
               <Package className="w-4 h-4" />
-              New Shipment
+              Nuevo Envío
             </button>
           </div>
         </div>
@@ -26,28 +26,28 @@ export default function Home() {
         {/* Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <MetricCard
-            title="Total Shipments"
+            title="Total de Envíos"
             value="1,250"
             trend="+12.5%"
             trendUp={true}
             icon={<Package className="w-4 h-4 text-zinc-500" />}
           />
           <MetricCard
-            title="In Transit"
+            title="En Tránsito"
             value="342"
             trend="+4.2%"
             trendUp={true}
             icon={<Truck className="w-4 h-4 text-zinc-500" />}
           />
           <MetricCard
-            title="Delivered (Today)"
+            title="Entregados (Hoy)"
             value="89"
             trend="-2.1%"
             trendUp={false}
             icon={<TrendingUp className="w-4 h-4 text-zinc-500" />}
           />
           <MetricCard
-            title="Issues Reported"
+            title="Problemas Reportados"
             value="3"
             trend="-1"
             trendUp={true} // Less issues is good
@@ -60,11 +60,11 @@ export default function Home() {
           <div className="lg:col-span-2 bg-white border border-zinc-200 rounded-xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-base font-semibold text-zinc-900">Shipment Volume</h2>
-                <p className="text-sm text-zinc-500">Last 7 days performance</p>
+                <h2 className="text-base font-semibold text-zinc-900">Volumen de Envíos</h2>
+                <p className="text-sm text-zinc-500">Rendimiento de los últimos 7 días</p>
               </div>
               <button className="text-sm text-zinc-500 hover:text-zinc-900 flex items-center gap-1">
-                View Details <ArrowUpRight className="w-4 h-4" />
+                Ver Detalles <ArrowUpRight className="w-4 h-4" />
               </button>
             </div>
             <OverviewChart />
@@ -73,7 +73,7 @@ export default function Home() {
           {/* Recent Activity */}
           <div className="bg-white border border-zinc-200 rounded-xl shadow-sm p-6 flex flex-col">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-base font-semibold text-zinc-900">Recent Activity</h2>
+              <h2 className="text-base font-semibold text-zinc-900">Actividad Reciente</h2>
               <button className="text-zinc-400 hover:text-zinc-900">
                 <MoreHorizontal className="w-5 h-5" />
               </button>
@@ -81,28 +81,28 @@ export default function Home() {
             
             <div className="flex-1 overflow-y-auto pr-2 space-y-6">
               <ActivityItem 
-                title="Shipment #TRK-8921 delivered"
-                time="10 mins ago"
+                title="Envío #TRK-8921 entregado"
+                time="Hace 10 mins"
                 status="success"
               />
               <ActivityItem 
-                title="Driver Mike picked up #TRK-8924"
-                time="45 mins ago"
+                title="Conductor Mike recogió #TRK-8924"
+                time="Hace 45 mins"
                 status="neutral"
               />
               <ActivityItem 
-                title="Delay reported on Route A4"
-                time="2 hours ago"
+                title="Retraso reportado en Ruta A4"
+                time="Hace 2 horas"
                 status="warning"
               />
               <ActivityItem 
-                title="New order received from Acme Corp"
-                time="3 hours ago"
+                title="Nuevo pedido de Acme Corp"
+                time="Hace 3 horas"
                 status="neutral"
               />
               <ActivityItem 
-                title="Shipment #TRK-8910 delivered"
-                time="5 hours ago"
+                title="Envío #TRK-8910 entregado"
+                time="Hace 5 horas"
                 status="success"
               />
             </div>
@@ -113,53 +113,53 @@ export default function Home() {
         <div className="bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
           <div className="p-6 border-b border-zinc-200 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-semibold text-zinc-900">Active Shipments</h2>
-              <p className="text-sm text-zinc-500">Currently in transit or pending pickup.</p>
+              <h2 className="text-base font-semibold text-zinc-900">Envíos Activos</h2>
+              <p className="text-sm text-zinc-500">Actualmente en tránsito o pendientes de recolección.</p>
             </div>
             <button className="text-sm font-medium text-zinc-900 hover:underline">
-              View All
+              Ver Todos
             </button>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-zinc-500 uppercase bg-zinc-50/50 border-b border-zinc-200">
                 <tr>
-                  <th className="px-6 py-3 font-medium">Tracking ID</th>
-                  <th className="px-6 py-3 font-medium">Client</th>
-                  <th className="px-6 py-3 font-medium">Origin &rarr; Destination</th>
-                  <th className="px-6 py-3 font-medium">Status</th>
-                  <th className="px-6 py-3 font-medium">Est. Delivery</th>
-                  <th className="px-6 py-3 font-medium text-right">Action</th>
+                  <th className="px-6 py-3 font-medium">ID Rastreo</th>
+                  <th className="px-6 py-3 font-medium">Cliente</th>
+                  <th className="px-6 py-3 font-medium">Origen &rarr; Destino</th>
+                  <th className="px-6 py-3 font-medium">Estado</th>
+                  <th className="px-6 py-3 font-medium">Entrega Est.</th>
+                  <th className="px-6 py-3 font-medium text-right">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200">
                 <TableRow 
                   id="TRK-8925"
                   client="Acme Corp"
-                  route="New York &rarr; Boston"
-                  status="In Transit"
-                  date="Today, 4:00 PM"
+                  route="Nueva York &rarr; Boston"
+                  status="En Tránsito"
+                  date="Hoy, 4:00 PM"
                 />
                 <TableRow 
                   id="TRK-8926"
                   client="Stark Industries"
-                  route="Los Angeles &rarr; San Francisco"
-                  status="Pending"
-                  date="Tomorrow, 10:00 AM"
+                  route="Los Ángeles &rarr; San Francisco"
+                  status="Pendiente"
+                  date="Mañana, 10:00 AM"
                 />
                 <TableRow 
                   id="TRK-8927"
                   client="Wayne Enterprises"
                   route="Chicago &rarr; Detroit"
-                  status="In Transit"
-                  date="Today, 6:30 PM"
+                  status="En Tránsito"
+                  date="Hoy, 6:30 PM"
                 />
                 <TableRow 
                   id="TRK-8928"
                   client="Globex Corp"
                   route="Miami &rarr; Orlando"
-                  status="Delayed"
-                  date="Tomorrow, 2:00 PM"
+                  status="Retrasado"
+                  date="Mañana, 2:00 PM"
                 />
               </tbody>
             </table>
@@ -210,9 +210,9 @@ function ActivityItem({ title, time, status }: { title: string, time: string, st
 
 function TableRow({ id, client, route, status, date }: { id: string, client: string, route: string, status: string, date: string }) {
   const statusColors: Record<string, string> = {
-    "In Transit": "bg-blue-50 text-blue-700 ring-blue-600/20",
-    "Pending": "bg-zinc-50 text-zinc-600 ring-zinc-500/20",
-    "Delayed": "bg-amber-50 text-amber-700 ring-amber-600/20",
+    "En Tránsito": "bg-blue-50 text-blue-700 ring-blue-600/20",
+    "Pendiente": "bg-zinc-50 text-zinc-600 ring-zinc-500/20",
+    "Retrasado": "bg-amber-50 text-amber-700 ring-amber-600/20",
   };
 
   return (
