@@ -1,5 +1,13 @@
 import DashboardLayout from "@/components/dashboard-layout";
-import { Users, Search, Filter, Plus, MoreHorizontal, Building2, Mail, Phone } from "lucide-react";
+import { Users, Search, Filter, Plus, MoreHorizontal, Building2, Mail, Phone, Eye, Edit, Trash2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function ClientsPage() {
   return (
@@ -106,7 +114,7 @@ function ClientRow({ company, contact, email, phone, activeShipments, totalVolum
         </div>
         <div>
           <p className="font-semibold text-zinc-900">{company}</p>
-          <p className="text-xs text-zinc-500 font-normal mt-0.5">ID: CLI-{Math.floor(Math.random() * 9000) + 1000}</p>
+          <p className="text-xs text-zinc-500 font-normal mt-0.5">ID: CLI-{Math.abs(company.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0)) % 9000 + 1000}</p>
         </div>
       </td>
       <td className="px-6 py-4">
@@ -128,9 +136,30 @@ function ClientRow({ company, contact, email, phone, activeShipments, totalVolum
         </span>
       </td>
       <td className="px-6 py-4 text-right">
-        <button className="text-zinc-400 hover:text-zinc-900">
-          <MoreHorizontal className="w-5 h-5 ml-auto" />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="text-zinc-400 hover:text-zinc-900 outline-none">
+              <MoreHorizontal className="w-5 h-5 ml-auto" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">
+              <Eye className="mr-2 h-4 w-4" />
+              <span>Ver perfil</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Edit className="mr-2 h-4 w-4" />
+              <span>Editar cliente</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50">
+              <Trash2 className="mr-2 h-4 w-4" />
+              <span>Eliminar cliente</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </td>
     </tr>
   );

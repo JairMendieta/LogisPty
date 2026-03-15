@@ -1,5 +1,13 @@
 import DashboardLayout from "@/components/dashboard-layout";
-import { Package, Search, Filter, Plus, MoreHorizontal, Download } from "lucide-react";
+import { Package, Search, Filter, Plus, MoreHorizontal, Download, Eye, Edit, Trash2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function ShipmentsPage() {
   return (
@@ -147,9 +155,30 @@ function TableRow({ id, client, route, status, driver, date }: { id: string, cli
       </td>
       <td className="px-6 py-4 text-zinc-600">{date}</td>
       <td className="px-6 py-4 text-right">
-        <button className="text-zinc-400 hover:text-zinc-900">
-          <MoreHorizontal className="w-5 h-5 ml-auto" />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="text-zinc-400 hover:text-zinc-900 outline-none">
+              <MoreHorizontal className="w-5 h-5 ml-auto" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">
+              <Eye className="mr-2 h-4 w-4" />
+              <span>Ver detalles</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Edit className="mr-2 h-4 w-4" />
+              <span>Editar envío</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50">
+              <Trash2 className="mr-2 h-4 w-4" />
+              <span>Cancelar envío</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </td>
     </tr>
   );
