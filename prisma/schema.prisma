@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  OPERATOR
+  CLIENT
+  DRIVER
+}
+
+enum ShipmentStatus {
+  PENDING
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+}
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(CLIENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  companyId     String?
+  company       Company?  @relation(fields: [companyId], references: [id])
+  shipments     Shipment[] @relation("CreatedShipments")
+  driverProfile Driver?
+}
+
+model Company {
+  id               String           @id @default(cuid())
+  name             String
+  taxId            String?
+  address          String?
+  subscriptionPlan SubscriptionPlan @default(FREE)
+  stripeCustomerId String?          @unique
+  shipmentsLimit   Int              @default(100)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  // Relations
+  users            User[]
+  shipments        Shipment[]
+}
+
+model Driver {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  licenseNum  String
+  vehicleId   String?
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+  isAvailable Boolean  @default(true)
+  
+  // Relations
+  shipments   Shipment[]
+}
+
+model Vehicle {
+  id           String   @id @default(cuid())
+  plateNumber  String   @unique
+  make         String
+  model        String
+  capacityKg   Float
+  status       String   @default("ACTIVE") // ACTIVE, MAINTENANCE, INACTIVE
+  
+  // Relations
+  drivers      Driver[]
+}
+
+model Shipment {
+  id              String         @id @default(cuid())
+  trackingNumber  String         @unique
+  status          ShipmentStatus @default(PENDING)
+  origin          String
+  destination     String
+  weightKg        Float
+  estimatedPrice  Float?
+  
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  estimatedDelivery DateTime?
+  actualDelivery  DateTime?
+
+  // Relations
+  creatorId       String
+  creator         User           @relation("CreatedShipments", fields: [creatorId], references: [id])
+  companyId       String
+  company         Company        @relation(fields: [companyId], references: [id])
+  driverId        String?
+  driver          Driver?        @relation(fields: [driverId], references: [id])
+  
+  trackingEvents  TrackingEvent[]
+}
+
+model TrackingEvent {
+  id          String   @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id])
+  status      ShipmentStatus
+  location    String?  // Could be coordinates or address string
+  latitude    Float?
+  longitude   Float?
+  description String?
+  timestamp   DateTime @default(now())
+}
