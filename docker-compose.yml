@@ -8,7 +8,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/logistics?schema=public
+      - DATABASE_URL=mysql://root:root@db:3306/logistics
       - NEXTAUTH_URL=http://localhost:3000
       - NEXTAUTH_SECRET=your_nextauth_secret_here
       - STRIPE_SECRET_KEY=your_stripe_secret_here
@@ -16,15 +16,14 @@ services:
       - db
 
   db:
-    image: postgres:15-alpine
+    image: mysql:8.0
     ports:
-      - "5432:5432"
+      - "3306:3306"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=logistics
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=logistics
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  postgres_data:
+  mysql_data:
